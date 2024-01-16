@@ -1,6 +1,7 @@
 import { Label } from '@radix-ui/react-label'
 import { Helmet } from 'react-helmet-async'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { Button } from '@/components/ui/button'
@@ -20,8 +21,19 @@ export function SignIn() {
   } = useForm<SignInForm>()
 
   async function handleSignIn(data: SignInForm) {
-    console.log(data)
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    try {
+      // throw new Error()
+      await new Promise((resolve) => setTimeout(resolve, 2000))
+      toast.success('Enviamos um link de autenticacao para seu email.', {
+        description: 'Verifique sua caixa de entrada',
+        action: {
+          label: 'Reenviar',
+          onClick: () => handleSignIn(data),
+        },
+      })
+    } catch (error) {
+      toast.error('Credenciais invalidas')
+    }
   }
 
   return (
