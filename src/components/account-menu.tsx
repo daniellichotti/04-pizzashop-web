@@ -2,7 +2,7 @@ import { Dialog } from '@radix-ui/react-dialog'
 import { useQuery } from '@tanstack/react-query'
 import { Building, ChevronDown, LogOut } from 'lucide-react'
 
-import { getManageRestaurant } from '@/api/get-managed-restaurant'
+import { getManagedRestaurant } from '@/api/get-managed-restaurant'
 import { getProfile } from '@/api/get-profile'
 
 import { StoreProfileDialog } from './store-profile-dialog'
@@ -28,7 +28,7 @@ export function AccountMenu() {
   const { data: managedRestaurant, isLoading: isLoadingManagedRestaurant } =
     useQuery({
       queryKey: ['managed-restaurant'],
-      queryFn: getManageRestaurant,
+      queryFn: getManagedRestaurant,
       staleTime: Infinity,
     })
 
