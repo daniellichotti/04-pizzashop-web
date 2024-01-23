@@ -105,7 +105,7 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
                       {
                         style: 'currency',
                         currency: 'BRL',
-                      }
+                      },
                     )}
                   </TableCell>
                 </TableBody>
