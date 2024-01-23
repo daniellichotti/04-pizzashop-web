@@ -15,6 +15,7 @@ import {
 
 import { OrderTableFilters } from './order-table-filters'
 import { OrderTableRow } from './order-table-row'
+import { OrderTableSkeleton } from './order-table-skeleton'
 
 export function Orders() {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -26,9 +27,9 @@ export function Orders() {
   const pageIndex = z.coerce
     .number()
     .transform((page) => page - 1)
-    .parse(searchParams.get('page') ?? '0')
+    .parse(searchParams.get('page') ?? '1')
 
-  const { data: result } = useQuery({
+  const { data: result, isLoading: isLoadingOrders } = useQuery({
     queryKey: ['orders', pageIndex, orderId, customerName, status],
     queryFn: () =>
       getOrders({
@@ -50,18 +51,19 @@ export function Orders() {
   return (
     <>
       <Helmet title="Pedidos" />
+
       <div className="flex flex-col gap-4">
         <h1 className="text-3xl font-bold tracking-tight">Pedidos</h1>
-
         <div className="space-y-2.5">
           <OrderTableFilters />
+
           <div className="rounded-md border">
             <Table>
               <TableHeader>
                 <TableRow>
                   <TableHead className="w-[64px]"></TableHead>
                   <TableHead className="w-[140px]">Identificador</TableHead>
-                  <TableHead className="w-[180px]">Realizado ha</TableHead>
+                  <TableHead className="w-[180px]">Realizado há</TableHead>
                   <TableHead className="w-[140px]">Status</TableHead>
                   <TableHead>Cliente</TableHead>
                   <TableHead className="w-[140px]">Total do pedido</TableHead>
@@ -77,6 +79,8 @@ export function Orders() {
               </TableBody>
             </Table>
           </div>
+          {isLoadingOrders && <OrderTableSkeleton />}
+
           {result && (
             <Pagination
               onPageChange={handlePaginate}
